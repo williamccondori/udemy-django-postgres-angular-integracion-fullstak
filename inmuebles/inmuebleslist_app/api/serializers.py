@@ -3,10 +3,6 @@ from rest_framework import serializers
 
 from inmuebleslist_app.models import Empresa, Edificacion
 
-class EmpresaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Empresa
-        fields = "__all__"
 
 class EficicacionSerializer(serializers.ModelSerializer):
     # longitud_direccion = serializers.SerializerMethodField()
@@ -16,6 +12,17 @@ class EficicacionSerializer(serializers.ModelSerializer):
         fields = "__all__"
         # fields = ['id', 'pais', 'active', 'imagen']
         # exclude = ['id']
+        
+class EmpresaSerializer(serializers.ModelSerializer):
+    # edificaciones = EficicacionSerializer(many=True, read_only=True)
+    # edificaciones = serializers.StringRelatedField(many=True)
+    # edificaciones = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    edificaciones = serializers.HyperlinkedRelatedField(
+        view_name='edificacion-detalle', many=True, read_only=True)
+    class Meta:
+        model = Empresa
+        fields = "__all__"
+
         
     # def get_longitud_direccion(self, obj):
     #     cantidad_caracteres = len(obj.direccion)

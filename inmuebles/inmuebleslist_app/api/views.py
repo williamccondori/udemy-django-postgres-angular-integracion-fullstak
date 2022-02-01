@@ -1,3 +1,4 @@
+from multiprocessing import context
 from rest_framework.response import Response
 from inmuebleslist_app.models import Empresa, Edificacion
 from inmuebleslist_app.api.serializers import EmpresaSerializer, EficicacionSerializer
@@ -9,7 +10,7 @@ from rest_framework.views import APIView
 class EmpresaAV(APIView):
     def get(self, request):
         empresas = Empresa.objects.all()
-        serializer = EmpresaSerializer(empresas, many=True)
+        serializer = EmpresaSerializer(empresas, many=True, context={'request': request})
         return Response(serializer.data)
     
     def post(self, request):
