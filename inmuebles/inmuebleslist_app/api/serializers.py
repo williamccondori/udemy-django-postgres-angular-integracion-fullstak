@@ -1,11 +1,17 @@
 from dataclasses import field
 from rest_framework import serializers
 
-from inmuebleslist_app.models import Empresa, Edificacion
+from inmuebleslist_app.models import Comentario, Empresa, Edificacion
+
+class ComentarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comentario
+        fields = '__all__'
 
 
 class EficicacionSerializer(serializers.ModelSerializer):
     # longitud_direccion = serializers.SerializerMethodField()
+    comentarios = ComentarioSerializer(many=True, read_only=True)
     
     class Meta:
         model = Edificacion
