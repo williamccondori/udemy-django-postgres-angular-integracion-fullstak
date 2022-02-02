@@ -20,6 +20,7 @@ class EmpresaAV(APIView):
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
+        
 
 class EmpresaDetalleAV(APIView):
     def get(self, request, pk):
@@ -27,7 +28,7 @@ class EmpresaDetalleAV(APIView):
             empresa = Empresa.objects.get(pk=pk)
         except Empresa.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = EmpresaSerializer(empresa)
+        serializer = EmpresaSerializer(empresa, context={'request': request})
         return Response(serializer.data)
         
     def put(self, request, pk):
@@ -35,7 +36,7 @@ class EmpresaDetalleAV(APIView):
             empresa = Empresa.objects.get(pk=pk)
         except Empresa.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = EmpresaSerializer(empresa, data=request.data)
+        serializer = EmpresaSerializer(empresa, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

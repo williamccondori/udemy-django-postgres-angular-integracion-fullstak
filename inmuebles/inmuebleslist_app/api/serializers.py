@@ -13,12 +13,13 @@ class EficicacionSerializer(serializers.ModelSerializer):
         # fields = ['id', 'pais', 'active', 'imagen']
         # exclude = ['id']
         
-class EmpresaSerializer(serializers.ModelSerializer):
-    # edificaciones = EficicacionSerializer(many=True, read_only=True)
+class EmpresaSerializer(serializers.HyperlinkedModelSerializer):
+    edificaciones = EficicacionSerializer(many=True, read_only=True)
     # edificaciones = serializers.StringRelatedField(many=True)
     # edificaciones = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    edificaciones = serializers.HyperlinkedRelatedField(
-        view_name='edificacion-detalle', many=True, read_only=True)
+    # edificaciones = serializers.HyperlinkedRelatedField(
+    #     view_name='edificacion-detalle', many=True, read_only=True)
+    
     class Meta:
         model = Empresa
         fields = "__all__"
